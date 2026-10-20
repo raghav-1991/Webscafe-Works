@@ -1,0 +1,125 @@
+/* ==========================================================
+   Effects — CSS for the 21st.dev-inspired components
+   (components/effects/*)
+   ========================================================== */
+
+/* ---------- Ambient layers ---------- */
+.particles-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+/* Aceternity "Spotlight" cursor light */
+.cursor-glow {
+    position: fixed;
+    left: -280px;
+    top: -280px;
+    width: 560px;
+    height: 560px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    background: radial-gradient(circle, rgba(var(--brand-rgb), 0.10) 0%, rgba(var(--brand-rgb), 0.035) 35%, transparent 70%);
+    mix-blend-mode: screen;
+}
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    z-index: 1000;
+    transform-origin: 0 50%;
+    background: linear-gradient(90deg, var(--brand-deep), var(--brand), var(--brand-light));
+    box-shadow: 0 0 12px rgba(var(--brand-rgb), 0.8);
+}
+
+/* ---------- Text shimmer (Motion Primitives) ---------- */
+.text-shimmer {
+    --base: rgba(238, 246, 246, 0.7);
+    --shine: #ffffff;
+    background: linear-gradient(90deg, var(--base) 0%, var(--base) 40%, var(--shine) 50%, var(--base) 60%, var(--base) 100%);
+    background-size: 250% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent !important;
+    animation: shimmer var(--shimmer-duration, 2.6s) linear infinite;
+}
+@keyframes shimmer {
+    from { background-position: 100% 0; }
+    to { background-position: -150% 0; }
+}
+
+/* ---------- Border beam (Magic UI) ---------- */
+@property --beam-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+.border-beam {
+    position: absolute;
+    inset: -1px;
+    padding: 1.5px;
+    border-radius: inherit;
+    pointer-events: none;
+    background: conic-gradient(from var(--beam-angle), transparent 0deg, transparent 280deg, rgba(var(--brand-rgb), 0.95) 330deg, #e8ffff 350deg, transparent 360deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    animation: beam-spin var(--beam-duration, 8s) linear infinite;
+    animation-delay: var(--beam-delay, 0s);
+}
+@keyframes beam-spin { to { --beam-angle: 360deg; } }
+
+/* ---------- Card spotlight + glowing border (Magic UI "Magic Card", Aceternity "Glowing Effect") ---------- */
+.spotlight { position: relative; }
+.spotlight::before,
+.spotlight::after {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+/* soft fill under the cursor */
+.spotlight::after {
+    inset: 0;
+    z-index: 1;
+    background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), var(--spot, rgba(var(--brand-rgb), 0.12)), transparent 65%);
+}
+/* bright rim that follows the cursor along the border */
+.spotlight::before {
+    inset: -1px;
+    z-index: 2;
+    padding: 1px;
+    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(var(--brand-rgb), 0.95), transparent 60%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+.spotlight:hover::before,
+.spotlight:hover::after { opacity: 1; }
+
+/* ---------- Tilt glare ---------- */
+.tilt-glare {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s;
+    background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255, 255, 255, 0.16), transparent 55%);
+}
+*:hover > .tilt-glare { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+    .bg-aurora,
+    .text-gradient,
+    .text-shimmer,
+    .border-beam,
+    .btn__shine,
+    .eyebrow__dot::after,
+    .coming-soon__orbit span { animation: none !important; }
+}

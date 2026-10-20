@@ -1,0 +1,14 @@
+/* ==========================================================
+   Webscafe — digital agency theme (logo teal on near-black)
+   1. base       → fonts, tokens, reset, typography, container
+   2. layout     → background layers, navbar, footer
+   3. components → buttons, eyebrow, tabs, cards
+   4. pages      → page hero, Our Works, About, project detail, 404
+   5. effects    → 21st.dev-inspired motion/light effects
+   ========================================================== */
+@import './base/fonts.css';
+@import './base/base.css';
+@import './layout/layout.css';
+@import './components/components.css';
+@import './pages/pages.css';
+@import './effects/effects.css';
